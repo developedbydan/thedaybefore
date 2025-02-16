@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@theme {
+  --color-news-bg: #e3e1d5;
+  --font-Playfair-Display: "Playfair Display", serif;
+  --font-Inter: "Inter", serif;
+}
