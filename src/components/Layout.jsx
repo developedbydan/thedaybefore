@@ -1,9 +1,10 @@
 import Navigation from "./Navigation";
 
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
-    <div className="bg-news-bg h-dvh">
+    <div className="bg-news-bg min-h-dvh">
       <Navigation />
+      <main>{children}</main>
     </div>
   );
 };

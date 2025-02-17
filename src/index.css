@@ -2,6 +2,7 @@
 
 @theme {
   --color-news-bg: #e3e1d5;
+  --color-news-gray: #8a8a83;
   --font-Playfair-Display: "Playfair Display", serif;
   --font-Inter: "Inter", serif;
 }
