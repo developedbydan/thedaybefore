@@ -2,9 +2,9 @@ import Navigation from "./Navigation";
 
 const Layout = ({ children }) => {
   return (
-    <div className="bg-news-bg min-h-dvh">
+    <div className="bg-news-bg min-h-screen flex flex-col">
       <Navigation />
-      <main>{children}</main>
+      <main className="flex-grow">{children}</main>
     </div>
   );
 };

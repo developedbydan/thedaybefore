@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
+import { formatDateShort } from "../utils/formatDate";
 
 const Home = () => {
   const myKey = import.meta.env.VITE_API_KEY;
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -42,9 +45,13 @@ const Home = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
+  const handleClick = (articleId) => {
+    navigate(`/article/${articleId}`);
+  };
+
   return (
     <Layout>
-      <div className="border-t-6 flex flex-col py-4 px-4">
+      <div className="flex flex-col py-4 px-4">
         <div className="flex justify-between items-center border-b-2 pb-4">
           <h3 className="font-Playfair-Display font-semibold text-2xl">
             Trending Articles
@@ -57,18 +64,11 @@ const Home = () => {
         </div>
         <div className="py-10 flex flex-col gap-10">
           {news.slice(0, news.length / 2).map((article, index) => {
-            const formatedDate = new Date(
-              article.publishedAt
-            ).toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            });
-
             return (
               <div
                 key={index}
                 className=" bg-news-bg flex mb-2 gap-3 h-24 cursor-pointer"
+                onClick={() => handleClick(index)}
               >
                 <div className="min-w-10 max-w-10 pb-2.5">
                   <div className=" flex flex-col items-center border-b-2 h-full w-full">
@@ -83,7 +83,9 @@ const Home = () => {
                     {article.title}
                   </h2>
                   <p className="text-news-gray line-clamp-1">
-                    {formatedDate}, {article.author}
+                    {article.publishedAt &&
+                      formatDateShort(article.publishedAt)}
+                    , {article.author}
                   </p>
                 </div>
               </div>
