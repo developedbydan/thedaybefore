@@ -13,7 +13,7 @@ const Home = () => {
         const cachedNews = localStorage.getItem("news");
         if (!cachedNews || cachedNews === "[]") {
           const response = await fetch(
-            `https://newsapi.org/v2/everything?domains=techcrunch.com,thenextweb.com&apiKey=${myKey}`
+            `https://newsapi.org/v2/top-headlines?country=us&apiKey=${myKey}`
           );
 
           if (!response.ok) {
@@ -46,17 +46,17 @@ const Home = () => {
     <Layout>
       <div className="border-t-6 flex flex-col py-4 px-4">
         <div className="flex justify-between items-center border-b-2 pb-4">
-          <h3 className="font-Playfair-Display font-semibold text-xl">
-            Popular Article Now
+          <h3 className="font-Playfair-Display font-semibold text-2xl">
+            Trending Articles
           </h3>
           <div className="flex items-center justify-center rounded-2xl border-1 border-gray-400 px-2 py-1">
             <p className="text-sm font-Inter text-orange-500 font-medium">
-              20 New
+              {news.length / 2} New
             </p>
           </div>
         </div>
         <div className="py-10 flex flex-col gap-10">
-          {news.slice(0, 20).map((article, index) => {
+          {news.slice(0, news.length / 2).map((article, index) => {
             const formatedDate = new Date(
               article.publishedAt
             ).toLocaleDateString("en-GB", {
@@ -82,7 +82,7 @@ const Home = () => {
                   <h2 className="text-xl font-medium  font-Inter line-clamp-2">
                     {article.title}
                   </h2>
-                  <p className="text-news-gray">
+                  <p className="text-news-gray line-clamp-1">
                     {formatedDate}, {article.author}
                   </p>
                 </div>
