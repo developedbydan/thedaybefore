@@ -3,8 +3,9 @@ import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import { formatDateShort } from "../utils/formatDate";
 
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 const Home = () => {
-  const myKey = import.meta.env.VITE_API_KEY;
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +17,7 @@ const Home = () => {
         const cachedNews = localStorage.getItem("news");
         if (!cachedNews || cachedNews === "[]") {
           const response = await fetch(
-            `https://newsapi.org/v2/top-headlines?country=us&apiKey=${myKey}`
+            `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
           );
 
           if (!response.ok) {
@@ -40,7 +41,7 @@ const Home = () => {
     };
 
     fetchNews();
-  }, [myKey]);
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -58,7 +59,7 @@ const Home = () => {
           </h3>
           <div className="flex items-center justify-center rounded-2xl border-1 border-gray-400 px-2 py-1">
             <p className="text-sm font-Inter text-orange-500 font-medium">
-              {news.length / 2} New
+              {Math.floor(news.length / 2)} New
             </p>
           </div>
         </div>
