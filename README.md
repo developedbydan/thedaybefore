@@ -25,7 +25,10 @@ The Day Before is a front-end news application that provides a summary of the mo
 ## Screenshots
 
 ### Home Page
+(https://github.com/user-attachments/assets/e3eaf00a-63ec-40b1-ab3b-de503f2bc061)
 
 ### Category Page
+(https://github.com/user-attachments/assets/78b67b2e-9d59-434e-82c0-49b7a3fc8701)
 
 ### Article Page
+(https://github.com/user-attachments/assets/2f0ef358-745d-41bf-984f-9a066a28ccb9)
