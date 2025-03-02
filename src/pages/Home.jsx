@@ -14,6 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        // Retrieve cached news from localStorage
         const cachedNews = localStorage.getItem("news");
         if (!cachedNews || cachedNews === "[]") {
           const response = await fetch(
@@ -23,8 +24,10 @@ const Home = () => {
           if (!response.ok) {
             throw new Error("Failed to fetch news");
           }
+
           const data = await response.json();
           if (data.articles && data.articles.length > 0) {
+            // Cache the news articles in localStorage
             localStorage.setItem("news", JSON.stringify(data.articles));
             setNews(data.articles);
           } else {
@@ -54,11 +57,11 @@ const Home = () => {
     <Layout>
       <div className="flex flex-col py-4 px-4">
         <div className="flex justify-between items-center border-b-2 pb-4">
-          <h3 className="font-Playfair-Display font-semibold text-2xl">
+          <h3 className="font-Ibarra font-semibold text-2xl">
             Trending Articles
           </h3>
-          <div className="flex items-center justify-center rounded-2xl border-1 border-gray-400 px-2 py-1">
-            <p className="text-sm font-Inter text-orange-500 font-medium">
+          <div className="flex items-center justify-center rounded-2xl border-1 border-news-gray px-2 py-1">
+            <p className="text-sm font-Inter text-news-orange font-medium">
               {Math.floor(news.length / 2)} New
             </p>
           </div>

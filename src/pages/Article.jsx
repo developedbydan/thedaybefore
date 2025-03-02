@@ -1,32 +1,54 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { formatDateNumeric } from "../utils/formatDate";
 
 const Article = () => {
-  const [article, setArticle] = useState({});
+  const [article, setArticle] = useState(null);
   const { id } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     const getArticleFromLocalStorage = () => {
       try {
-        const newsArray = JSON.parse(localStorage.getItem("news"));
-        if (newsArray && newsArray.length > 0) {
-          const article = newsArray[id];
-          setArticle(article);
+        let foundArticle = null;
+        const fromCategory = location.state?.fromCategory; // Check if navigated from a category
+
+        if (fromCategory) {
+          // Get the article from the category in localStorage
+          const categoriesData = JSON.parse(localStorage.getItem("categories"));
+          const newsInCategory = categoriesData[fromCategory];
+          foundArticle = newsInCategory[id];
+        } else {
+          // Get the article from the general news in localStorage
+          const newsArray = JSON.parse(localStorage.getItem("news")) || [];
+          foundArticle = newsArray[id];
         }
+        setArticle(foundArticle);
       } catch (error) {
         console.log(error);
       }
     };
+
     getArticleFromLocalStorage();
-  }, [id]);
+  }, [id, location]);
+
+  // Display a message if the article is not found
+  if (!article) {
+    return (
+      <Layout>
+        <section className="flex flex-col items-center justify-center h-screen">
+          <h2 className="text-xl font-bold">Article not found</h2>
+        </section>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
       <section className="bg-news-bg flex flex-col px-4 py-5">
         <header className="border-b pb-6">
-          <h1 className="font-Cormorant font-bold text-3xl">{article.title}</h1>
+          <h1 className="font-Ibarra font-bold text-3xl">{article.title}</h1>
           <div className="flex font-Inter items-center pt-4 text-news-gray text-sm font-medium border-gray-300">
             <hr className="w-8 h-[2px] bg-black mr-3" />
             <address className="mr-2 not-italic">
@@ -56,7 +78,7 @@ const Article = () => {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-Inter text-orange-500 shadow-2xl rounded-2xl border border-orange-500 px-4 py-2"
+                className="text-sm font-Inter text-news-orange shadow-2xl rounded-2xl border border-news-orange px-4 py-2"
               >
                 Continue Reading
               </a>

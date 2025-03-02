@@ -13,7 +13,7 @@ function Categories() {
               className={({ isActive }) =>
                 `px-3 py-2 cursor-pointer ${
                   isActive
-                    ? "text-orange-400 font-bold border-b border-orange-500"
+                    ? "text-news-orange font-bold border-b border-news-orange"
                     : ""
                 }`
               }

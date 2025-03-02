@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const Category = () => {
-  const { category } = useParams();
+  const { category } = useParams(); // Get category from URL parameters
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate(); // Hook for navigation
+
+  // Navigate to article page
+  const handleArticleClick = (id) => {
+    navigate(`/article/${id}`, { state: { fromCategory: category } });
+  };
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const cachedCategories = JSON.parse(localStorage.getItem("categories"));
+        const cachedCategories = JSON.parse(localStorage.getItem("categories")); // Get cached categories
 
         if (cachedCategories && cachedCategories[category]) {
-          setArticles(cachedCategories[category]);
+          setArticles(cachedCategories[category]); // Set articles from cache
           setLoading(false);
           return;
         }
@@ -32,7 +39,7 @@ const Category = () => {
           const updatedCategories = cachedCategories || {};
           updatedCategories[category] = data.articles;
 
-          localStorage.setItem("categories", JSON.stringify(updatedCategories));
+          localStorage.setItem("categories", JSON.stringify(updatedCategories)); // Update cache
 
           setArticles(data.articles);
         }
@@ -44,7 +51,7 @@ const Category = () => {
     };
 
     fetchNews();
-  }, [category]);
+  }, [category]); // Fetch news when category changes
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -59,8 +66,8 @@ const Category = () => {
           <h3 className="font-Playfair-Display font-semibold text-2xl capitalize">
             {category} News
           </h3>
-          <div className="flex items-center justify-center rounded-2xl border-1 border-gray-400 px-2 py-1">
-            <p className="text-sm font-Inter text-orange-500 font-medium">
+          <div className="flex items-center justify-center rounded-2xl border-1 border-news-gray px-2 py-1">
+            <p className="text-sm font-Inter text-news-orange font-medium">
               {articlesWithImages.length} New
             </p>
           </div>
@@ -68,7 +75,11 @@ const Category = () => {
         <section className="grid grid-cols-1 gap-6 py-10">
           {articlesWithImages.length > 0 ? (
             articlesWithImages.map((article, index) => (
-              <div key={index} className="cursor-pointer relative">
+              <div
+                key={index}
+                className="cursor-pointer relative"
+                onClick={() => handleArticleClick(index)}
+              >
                 <img
                   src={article.urlToImage}
                   alt={article.title}
