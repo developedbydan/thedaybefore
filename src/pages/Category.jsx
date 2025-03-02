@@ -63,7 +63,7 @@ const Category = () => {
     <Layout>
       <section className="p-4">
         <div className="flex justify-between items-center border-b-2 pb-4">
-          <h3 className="font-Playfair-Display font-semibold text-2xl capitalize">
+          <h3 className="font-Ibarra font-semibold text-2xl capitalize">
             {category} News
           </h3>
           <div className="flex items-center justify-center rounded-2xl border-1 border-news-gray px-2 py-1">
@@ -72,7 +72,7 @@ const Category = () => {
             </p>
           </div>
         </div>
-        <section className="grid grid-cols-1 gap-6 py-10">
+        <section className="grid grid-cols-1 gap-6 pt-6 pb-10">
           {articlesWithImages.length > 0 ? (
             articlesWithImages.map((article, index) => (
               <div
